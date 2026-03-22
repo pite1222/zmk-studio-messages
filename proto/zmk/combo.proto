@@ -1,0 +1,76 @@
+syntax = "proto3";
+package zmk.combo;
+
+import "keymap.proto";
+
+message Request {
+    oneof request_type {
+        bool get_combos = 1;
+        SetComboRequest set_combo = 2;
+        AddComboRequest add_combo = 3;
+        RemoveComboRequest remove_combo = 4;
+    }
+}
+
+message Response {
+    oneof response_type {
+        CombosResponse get_combos = 1;
+        SetComboResponse set_combo = 2;
+        AddComboResponse add_combo = 3;
+        RemoveComboResponse remove_combo = 4;
+    }
+}
+
+message ComboConfig {
+    repeated uint32 key_positions = 1;
+    zmk.keymap.BehaviorBinding binding = 2;
+    uint32 timeout_ms = 3;
+    uint32 require_prior_idle_ms = 4;
+    uint32 layer_mask = 5;
+    bool slow_release = 6;
+}
+
+message CombosResponse {
+    repeated ComboConfig combos = 1;
+    uint32 max_combos = 2;
+}
+
+message SetComboRequest {
+    uint32 index = 1;
+    ComboConfig combo = 2;
+}
+
+enum SetComboResponse {
+    SET_COMBO_RESP_OK = 0;
+    SET_COMBO_RESP_ERR_GENERIC = 1;
+    SET_COMBO_RESP_ERR_INVALID_INDEX = 2;
+    SET_COMBO_RESP_ERR_INVALID_PARAMS = 3;
+}
+
+message AddComboRequest {
+    ComboConfig combo = 1;
+}
+
+message AddComboResponse {
+    oneof result {
+        uint32 ok = 1;
+        AddComboErrorCode err = 2;
+    }
+}
+
+enum AddComboErrorCode {
+    ADD_COMBO_ERR_OK = 0;
+    ADD_COMBO_ERR_GENERIC = 1;
+    ADD_COMBO_ERR_NO_SPACE = 2;
+    ADD_COMBO_ERR_INVALID_PARAMS = 3;
+}
+
+message RemoveComboRequest {
+    uint32 index = 1;
+}
+
+enum RemoveComboResponse {
+    REMOVE_COMBO_RESP_OK = 0;
+    REMOVE_COMBO_RESP_ERR_GENERIC = 1;
+    REMOVE_COMBO_RESP_ERR_INVALID_INDEX = 2;
+}
