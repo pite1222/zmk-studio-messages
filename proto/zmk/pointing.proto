@@ -1,0 +1,55 @@
+// Pointing subsystem messages for ZMK Studio
+syntax = "proto3";
+
+package zmk.pointing;
+
+message SensitivityScale {
+    uint32 numerator = 1;
+    uint32 denominator = 2;
+}
+
+message SetSensitivityRequest {
+    SensitivityScale cursor = 1;
+    SensitivityScale scroll = 2;
+    uint32 cpi = 3;
+}
+
+enum SetSensitivityErrorCode {
+    SET_SENSITIVITY_ERR_OK = 0;
+    SET_SENSITIVITY_ERR_UNSUPPORTED = 1;
+    SET_SENSITIVITY_ERR_INVALID = 2;
+    SET_SENSITIVITY_ERR_STORAGE = 3;
+}
+
+message SetSensitivityResponse {
+    oneof result {
+        bool ok = 1;
+        SetSensitivityErrorCode err = 2;
+    }
+}
+
+message GetSensitivityRequest {
+}
+
+message GetSensitivityResponse {
+    SensitivityScale cursor = 1;
+    SensitivityScale scroll = 2;
+    uint32 cpi = 3;
+}
+
+message Request {
+    oneof request_type {
+        SetSensitivityRequest set_sensitivity = 1;
+        GetSensitivityRequest get_sensitivity = 2;
+    }
+}
+
+message Response {
+    oneof response_type {
+        SetSensitivityResponse set_sensitivity = 1;
+        GetSensitivityResponse get_sensitivity = 2;
+    }
+}
+
+message Notification {
+}
