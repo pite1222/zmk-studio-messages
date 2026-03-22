@@ -1,0 +1,2 @@
+zmk.combo.ComboConfig.key_positions    max_count:8
+zmk.combo.CombosResponse.combos        max_count:16
