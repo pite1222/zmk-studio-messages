@@ -37,10 +37,38 @@ message GetSensitivityResponse {
     uint32 cpi = 3;
 }
 
+// Auto Mouse Layer (AML) messages
+message GetAutoLayerRequest {
+}
+
+message GetAutoLayerResponse {
+    bool enabled = 1;
+}
+
+enum SetAutoLayerErrorCode {
+    SET_AUTO_LAYER_ERR_OK = 0;
+    SET_AUTO_LAYER_ERR_UNSUPPORTED = 1;
+    SET_AUTO_LAYER_ERR_INVALID = 2;
+    SET_AUTO_LAYER_ERR_STORAGE = 3;
+}
+
+message SetAutoLayerRequest {
+    bool enabled = 1;
+}
+
+message SetAutoLayerResponse {
+    oneof result {
+        bool ok = 1;
+        SetAutoLayerErrorCode err = 2;
+    }
+}
+
 message Request {
     oneof request_type {
         SetSensitivityRequest set_sensitivity = 1;
         GetSensitivityRequest get_sensitivity = 2;
+        GetAutoLayerRequest get_auto_layer = 3;
+        SetAutoLayerRequest set_auto_layer = 4;
     }
 }
 
@@ -48,6 +76,8 @@ message Response {
     oneof response_type {
         SetSensitivityResponse set_sensitivity = 1;
         GetSensitivityResponse get_sensitivity = 2;
+        GetAutoLayerResponse get_auto_layer = 3;
+        SetAutoLayerResponse set_auto_layer = 4;
     }
 }
 
