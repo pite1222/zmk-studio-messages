@@ -1,68 +1,58 @@
 // Pointing subsystem messages for ZMK Studio
 syntax = "proto3";
-
 package zmk.pointing;
-
 message SensitivityScale {
     uint32 numerator = 1;
     uint32 denominator = 2;
 }
-
 message SetSensitivityRequest {
     SensitivityScale cursor = 1;
     SensitivityScale scroll = 2;
     uint32 cpi = 3;
 }
-
 enum SetSensitivityErrorCode {
     SET_SENSITIVITY_ERR_OK = 0;
     SET_SENSITIVITY_ERR_UNSUPPORTED = 1;
     SET_SENSITIVITY_ERR_INVALID = 2;
     SET_SENSITIVITY_ERR_STORAGE = 3;
 }
-
 message SetSensitivityResponse {
     oneof result {
         bool ok = 1;
         SetSensitivityErrorCode err = 2;
     }
 }
-
 message GetSensitivityRequest {
 }
-
 message GetSensitivityResponse {
     SensitivityScale cursor = 1;
     SensitivityScale scroll = 2;
     uint32 cpi = 3;
 }
-
 // Auto Mouse Layer (AML) messages
 message GetAutoLayerRequest {
 }
-
 message GetAutoLayerResponse {
     bool enabled = 1;
+    uint32 require_prior_idle_ms = 2;
+    repeated uint32 excluded_positions = 3;
 }
-
 enum SetAutoLayerErrorCode {
     SET_AUTO_LAYER_ERR_OK = 0;
     SET_AUTO_LAYER_ERR_UNSUPPORTED = 1;
-    SET_AUTO_LAYER_ERR_INVALID = 2;
-    SET_AUTO_LAYER_ERR_STORAGE = 3;
+    SET_AUTO_LAYER_ERR_STORAGE = 2;
 }
-
 message SetAutoLayerRequest {
     bool enabled = 1;
+    uint32 require_prior_idle_ms = 2;
+    repeated uint32 excluded_positions = 3;
 }
-
 message SetAutoLayerResponse {
     oneof result {
         bool ok = 1;
         SetAutoLayerErrorCode err = 2;
     }
 }
-
 message Request {
     oneof request_type {
         SetSensitivityRequest set_sensitivity = 1;
@@ -71,7 +61,6 @@ message Request {
         SetAutoLayerRequest set_auto_layer = 4;
     }
 }
-
 message Response {
     oneof response_type {
         SetSensitivityResponse set_sensitivity = 1;
@@ -80,6 +69,5 @@ message Response {
         SetAutoLayerResponse set_auto_layer = 4;
     }
 }
-
 message Notification {
 }

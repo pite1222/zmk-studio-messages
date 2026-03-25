@@ -1,1 +1,2 @@
-
+zmk.pointing.GetAutoLayerResponse.excluded_positions max_count:40 fixed_count:false
+zmk.pointing.SetAutoLayerRequest.excluded_positions max_count:40 fixed_count:false
