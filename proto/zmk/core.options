@@ -1,0 +1,2 @@
+zmk.core.GetBleProfilesResponse.profiles    max_count:5
+zmk.core.BleProfileInfo.name                max_size:32
