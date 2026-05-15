@@ -53,12 +53,35 @@ message SetAutoLayerResponse {
         SetAutoLayerErrorCode err = 2;
     }
 }
+// Precision mode scale: applied to X/Y pointer movement when the
+// precision layer is active. numerator/denominator < 1 slows the cursor.
+message SetPrecisionScaleRequest {
+    SensitivityScale precision = 1;
+}
+enum SetPrecisionScaleErrorCode {
+    SET_PRECISION_SCALE_ERR_OK = 0;
+    SET_PRECISION_SCALE_ERR_INVALID = 1;
+    SET_PRECISION_SCALE_ERR_STORAGE = 2;
+}
+message SetPrecisionScaleResponse {
+    oneof result {
+        bool ok = 1;
+        SetPrecisionScaleErrorCode err = 2;
+    }
+}
+message GetPrecisionScaleRequest {
+}
+message GetPrecisionScaleResponse {
+    SensitivityScale precision = 1;
+}
 message Request {
     oneof request_type {
         SetSensitivityRequest set_sensitivity = 1;
         GetSensitivityRequest get_sensitivity = 2;
         GetAutoLayerRequest get_auto_layer = 3;
         SetAutoLayerRequest set_auto_layer = 4;
+        SetPrecisionScaleRequest set_precision_scale = 5;
+        GetPrecisionScaleRequest get_precision_scale = 6;
     }
 }
 message Response {
@@ -67,6 +90,8 @@ message Response {
         GetSensitivityResponse get_sensitivity = 2;
         GetAutoLayerResponse get_auto_layer = 3;
         SetAutoLayerResponse set_auto_layer = 4;
+        SetPrecisionScaleResponse set_precision_scale = 5;
+        GetPrecisionScaleResponse get_precision_scale = 6;
     }
 }
 message Notification {
