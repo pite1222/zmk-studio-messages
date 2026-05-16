@@ -171,6 +171,7 @@ message RestoreLayerRequest {
 message SetLayerPropsRequest {
     uint32 layer_id = 1;
     string name = 2;
+    uint32 color = 3; // 1-indexed LED color (0 = no change, 1 = Black, 2 = Red, ... 8 = White)
 }
 
 message Keymap {
@@ -183,6 +184,7 @@ message Layer {
     uint32 id = 1;
     string name = 2;
     repeated BehaviorBinding bindings = 3;
+    uint32 color = 4; // 1-indexed LED color (0 = not set, 1 = Black, 2 = Red, ... 8 = White)
 }
 
 message BehaviorBinding {
