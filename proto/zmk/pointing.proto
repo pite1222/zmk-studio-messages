@@ -36,6 +36,7 @@ message GetAutoLayerResponse {
     bool enabled = 1;
     uint32 require_prior_idle_ms = 2;
     repeated uint32 excluded_positions = 3;
+    uint32 motion_threshold = 4;
 }
 enum SetAutoLayerErrorCode {
     SET_AUTO_LAYER_ERR_OK = 0;
@@ -46,6 +47,7 @@ message SetAutoLayerRequest {
     bool enabled = 1;
     uint32 require_prior_idle_ms = 2;
     repeated uint32 excluded_positions = 3;
+    uint32 motion_threshold = 4;
 }
 message SetAutoLayerResponse {
     oneof result {
