@@ -16,6 +16,7 @@ message Request {
         bool get_ble_profiles = 5;
         bool get_tapping_term = 6;
         SetTappingTermRequest set_tapping_term = 7;
+        SetBleProfileNameRequest set_ble_profile_name = 8;
     }
 }
 
@@ -27,11 +28,17 @@ message Response {
         GetBleProfilesResponse get_ble_profiles = 5;
         GetTappingTermResponse get_tapping_term = 6;
         bool set_tapping_term = 7;
+        bool set_ble_profile_name = 8;
     }
 }
 
 message SetTappingTermRequest {
     uint32 tapping_term_ms = 1;
+}
+
+message SetBleProfileNameRequest {
+    uint32 profile_index = 1;
+    string name = 2;
 }
 
 message GetTappingTermResponse {
