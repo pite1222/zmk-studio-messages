@@ -17,6 +17,7 @@ message Request {
         bool get_tapping_term = 6;
         SetTappingTermRequest set_tapping_term = 7;
         SetBleProfileNameRequest set_ble_profile_name = 8;
+        bool get_runtime_state = 9;
     }
 }
 
@@ -29,6 +30,7 @@ message Response {
         GetTappingTermResponse get_tapping_term = 6;
         bool set_tapping_term = 7;
         bool set_ble_profile_name = 8;
+        RuntimeState get_runtime_state = 9;
     }
 }
 
@@ -62,8 +64,17 @@ message GetBleProfilesResponse {
     uint32 active_index = 2;
 }
 
+message RuntimeState {
+    uint32 highest_layer = 1;
+    uint32 active_layers_bitmask = 2;
+    uint32 battery_central = 3;
+    uint32 battery_peripheral = 4;
+    bool charging = 5;
+}
+
 message Notification {
     oneof notification_type {
         LockState lock_state_changed = 1;
+        RuntimeState runtime_state_changed = 2;
     }
 }
