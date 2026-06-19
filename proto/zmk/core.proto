@@ -18,6 +18,9 @@ message Request {
         SetTappingTermRequest set_tapping_term = 7;
         SetBleProfileNameRequest set_ble_profile_name = 8;
         bool get_runtime_state = 9;
+        SubscribeInputRequest subscribe_input = 10;
+        bool get_os_config = 11;
+        SetOsConfigRequest set_os_config = 12;
     }
 }
 
@@ -31,11 +34,27 @@ message Response {
         bool set_tapping_term = 7;
         bool set_ble_profile_name = 8;
         RuntimeState get_runtime_state = 9;
+        bool subscribe_input = 10;
+        GetOsConfigResponse get_os_config = 11;
+        bool set_os_config = 12;
     }
 }
 
 message SetTappingTermRequest {
     uint32 tapping_term_ms = 1;
+}
+
+message SubscribeInputRequest {
+    bool enable = 1;
+}
+
+message KeyInputEvent {
+    uint32 position = 1;
+    bool pressed = 2;
+}
+
+message LayerStateChanged {
+    uint32 highest_layer = 1;
 }
 
 message SetBleProfileNameRequest {
@@ -70,11 +89,31 @@ message RuntimeState {
     uint32 battery_central = 3;
     uint32 battery_peripheral = 4;
     bool charging = 5;
+    uint32 active_os = 6;
+    bool os_profile_enabled = 7;
+}
+
+// Per-OS keymap profile config (multi-device feature). os_map is indexed by
+// zmk_endpoint_instance_to_index() (USB + BLE profiles); each value is an OS enum
+// (0=Mac,1=Windows,2=iPadOS,3=Android).
+message GetOsConfigResponse {
+    bool enabled = 1;
+    repeated uint32 os_map = 2;
+    uint32 endpoint_count = 3;
+    uint32 active_endpoint = 4;
+    uint32 active_os = 5;
+}
+
+message SetOsConfigRequest {
+    bool enabled = 1;
+    repeated uint32 os_map = 2;
 }
 
 message Notification {
     oneof notification_type {
         LockState lock_state_changed = 1;
         RuntimeState runtime_state_changed = 2;
+        KeyInputEvent input_key = 3;
+        LayerStateChanged layer_changed = 4;
     }
 }

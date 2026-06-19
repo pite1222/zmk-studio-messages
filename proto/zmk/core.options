@@ -1,3 +1,5 @@
 zmk.core.GetBleProfilesResponse.profiles    max_count:5
 zmk.core.BleProfileInfo.name                max_size:32
 zmk.core.SetBleProfileNameRequest.name      max_size:15
+zmk.core.GetOsConfigResponse.os_map         max_count:8
+zmk.core.SetOsConfigRequest.os_map          max_count:8
