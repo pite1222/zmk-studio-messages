@@ -1,0 +1,3 @@
+zmk.gesture.GestureSet.dirs            max_count:4
+zmk.gesture.GetConfigResponse.sets     max_count:8
+zmk.gesture.SetConfigRequest.sets      max_count:8

@@ -9,6 +9,7 @@ import "behaviors.proto";
 import "keymap.proto";
 import "pointing.proto";
 import "combo.proto";
+import "gesture.proto";
 
 message Request {
     uint32 request_id = 1;
@@ -19,6 +20,7 @@ message Request {
         zmk.keymap.Request keymap = 5;
         zmk.pointing.Request pointing = 6;
         zmk.combo.Request combo = 7;
+        zmk.gesture.Request gesture = 8;
     }
 }
 
@@ -38,6 +40,7 @@ message RequestResponse {
         zmk.keymap.Response keymap = 5;
         zmk.pointing.Response pointing = 6;
         zmk.combo.Response combo = 7;
+        zmk.gesture.Response gesture = 8;
     }
 }
 

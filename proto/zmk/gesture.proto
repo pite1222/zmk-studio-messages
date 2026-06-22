@@ -1,0 +1,48 @@
+syntax = "proto3";
+package zmk.gesture;
+
+import "keymap.proto";
+
+message Request {
+    oneof request_type {
+        bool get_config = 1;
+        SetConfigRequest set_config = 2;
+    }
+}
+
+message Response {
+    oneof response_type {
+        GetConfigResponse get_config = 1;
+        SetConfigResponse set_config = 2;
+    }
+}
+
+// One binding per trackball direction, fixed order:
+// [0]=up [1]=down [2]=left [3]=right (matches the firmware gesture_direction
+// enum and the gesture processor's `positions` order).
+// A binding whose behavior_id < 0 is "unset" -> the firmware falls back to the
+// shared gesture layer (13) default for that direction.
+message GestureSet {
+    repeated zmk.keymap.BehaviorBinding dirs = 1;
+}
+
+// Per-endpoint trackball gesture override table. sets is indexed by
+// zmk_endpoint_instance_to_index() (NONE=0, USB=1, BLE profile P = 2+P) and is
+// endpoint_count entries long. endpoint_count echoes the firmware's
+// ZMK_ENDPOINT_COUNT so the host can detect an index-layout change and discard
+// stale local state.
+message GetConfigResponse {
+    bool enabled = 1;
+    uint32 endpoint_count = 2;
+    uint32 active_endpoint = 3;
+    repeated GestureSet sets = 4;
+}
+
+message SetConfigRequest {
+    bool enabled = 1;
+    repeated GestureSet sets = 2;
+}
+
+message SetConfigResponse {
+    bool ok = 1;
+}
