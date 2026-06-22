@@ -76,6 +76,29 @@ message GetPrecisionScaleRequest {
 message GetPrecisionScaleResponse {
     SensitivityScale precision = 1;
 }
+// Pointer acceleration: speed-dependent cursor gain. The gain ramps from 1.0x
+// up to (max_milli/1000)x as per-poll movement magnitude crosses `threshold`,
+// reaching the max after `range` additional counts/poll. enabled=false => linear.
+message AccelConfig {
+    bool enabled = 1;
+    uint32 max_milli = 2;   // max gain x1000 (2000 = 2.0x)
+    uint32 threshold = 3;   // counts/poll where acceleration starts
+    uint32 range = 4;       // counts/poll span to reach max gain
+}
+message SetAccelRequest {
+    AccelConfig accel = 1;
+}
+message SetAccelResponse {
+    oneof result {
+        bool ok = 1;
+        SetSensitivityErrorCode err = 2;
+    }
+}
+message GetAccelRequest {
+}
+message GetAccelResponse {
+    AccelConfig accel = 1;
+}
 message Request {
     oneof request_type {
         SetSensitivityRequest set_sensitivity = 1;
@@ -84,6 +107,8 @@ message Request {
         SetAutoLayerRequest set_auto_layer = 4;
         SetPrecisionScaleRequest set_precision_scale = 5;
         GetPrecisionScaleRequest get_precision_scale = 6;
+        SetAccelRequest set_accel = 7;
+        GetAccelRequest get_accel = 8;
     }
 }
 message Response {
@@ -94,6 +119,8 @@ message Response {
         SetAutoLayerResponse set_auto_layer = 4;
         SetPrecisionScaleResponse set_precision_scale = 5;
         GetPrecisionScaleResponse get_precision_scale = 6;
+        SetAccelResponse set_accel = 7;
+        GetAccelResponse get_accel = 8;
     }
 }
 message Notification {
