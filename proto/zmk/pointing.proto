@@ -37,6 +37,7 @@ message GetAutoLayerResponse {
     uint32 require_prior_idle_ms = 2;
     repeated uint32 excluded_positions = 3;
     uint32 motion_threshold = 4;
+    uint32 deactivate_timeout_ms = 5; // ms of no motion before AML auto-deactivates (0 = firmware default)
 }
 enum SetAutoLayerErrorCode {
     SET_AUTO_LAYER_ERR_OK = 0;
@@ -48,6 +49,7 @@ message SetAutoLayerRequest {
     uint32 require_prior_idle_ms = 2;
     repeated uint32 excluded_positions = 3;
     uint32 motion_threshold = 4;
+    uint32 deactivate_timeout_ms = 5; // ms of no motion before AML auto-deactivates (0 = firmware default)
 }
 message SetAutoLayerResponse {
     oneof result {
