@@ -81,11 +81,16 @@ message GetPrecisionScaleResponse {
 // Pointer acceleration: speed-dependent cursor gain. The gain ramps from 1.0x
 // up to (max_milli/1000)x as per-poll movement magnitude crosses `threshold`,
 // reaching the max after `range` additional counts/poll. enabled=false => linear.
+// Low-speed precision zone: below `slow_range` counts/poll the gain ramps from
+// (min_milli/1000)x up to 1.0x, so slow movements are decelerated for fine
+// pointing. min_milli 0 or 1000 = no slowdown (pre-0.6.10 behavior).
 message AccelConfig {
     bool enabled = 1;
     uint32 max_milli = 2;   // max gain x1000 (2000 = 2.0x)
     uint32 threshold = 3;   // counts/poll where acceleration starts
     uint32 range = 4;       // counts/poll span to reach max gain
+    uint32 min_milli = 5;   // low-speed gain x1000 (700 = 0.7x); 0 = keep current
+    uint32 slow_range = 6;  // counts/poll span of the min->1.0x ramp; 0 = keep current
 }
 message SetAccelRequest {
     AccelConfig accel = 1;
