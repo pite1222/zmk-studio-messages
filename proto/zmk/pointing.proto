@@ -107,6 +107,28 @@ message GetAccelRequest {
 message GetAccelResponse {
     AccelConfig accel = 1;
 }
+// Host-independent key auto-repeat (typematic). When enabled, a held
+// non-modifier keyboard-page key is re-sent as discrete release/press report
+// pairs after delay_ms and then every interval_ms.
+message KeyRepeatConfig {
+    bool enabled = 1;
+    uint32 delay_ms = 2;    // 0 = firmware default
+    uint32 interval_ms = 3; // 0 = firmware default
+}
+message SetKeyRepeatRequest {
+    KeyRepeatConfig config = 1;
+}
+message SetKeyRepeatResponse {
+    oneof result {
+        bool ok = 1;
+        SetSensitivityErrorCode err = 2;
+    }
+}
+message GetKeyRepeatRequest {
+}
+message GetKeyRepeatResponse {
+    KeyRepeatConfig config = 1;
+}
 message Request {
     oneof request_type {
         SetSensitivityRequest set_sensitivity = 1;
@@ -117,6 +139,8 @@ message Request {
         GetPrecisionScaleRequest get_precision_scale = 6;
         SetAccelRequest set_accel = 7;
         GetAccelRequest get_accel = 8;
+        SetKeyRepeatRequest set_key_repeat = 9;
+        GetKeyRepeatRequest get_key_repeat = 10;
     }
 }
 message Response {
@@ -129,6 +153,8 @@ message Response {
         GetPrecisionScaleResponse get_precision_scale = 6;
         SetAccelResponse set_accel = 7;
         GetAccelResponse get_accel = 8;
+        SetKeyRepeatResponse set_key_repeat = 9;
+        GetKeyRepeatResponse get_key_repeat = 10;
     }
 }
 message Notification {
