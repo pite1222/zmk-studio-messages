@@ -21,6 +21,8 @@ message Request {
         SubscribeInputRequest subscribe_input = 10;
         bool get_os_config = 11;
         SetOsConfigRequest set_os_config = 12;
+        bool get_flavor = 13;
+        SetFlavorRequest set_flavor = 14;
     }
 }
 
@@ -37,11 +39,19 @@ message Response {
         bool subscribe_input = 10;
         GetOsConfigResponse get_os_config = 11;
         bool set_os_config = 12;
+        GetFlavorResponse get_flavor = 13;
+        bool set_flavor = 14;
     }
 }
 
 message SetTappingTermRequest {
     uint32 tapping_term_ms = 1;
+}
+
+// Global hold-tap flavor override. 0 = no override (each behavior keeps its
+// devicetree-compiled flavor); 1 = hold-preferred, 2 = balanced, 3 = tap-preferred.
+message SetFlavorRequest {
+    uint32 flavor = 1;
 }
 
 message SubscribeInputRequest {
@@ -65,6 +75,12 @@ message SetBleProfileNameRequest {
 message GetTappingTermResponse {
     uint32 tapping_term_ms = 1;
     uint32 default_tapping_term_ms = 2;
+}
+
+// Global hold-tap flavor override. 0 = no override (each behavior keeps its
+// devicetree-compiled flavor); 1 = hold-preferred, 2 = balanced, 3 = tap-preferred.
+message GetFlavorResponse {
+    uint32 flavor = 1;
 }
 
 message GetDeviceInfoResponse {
